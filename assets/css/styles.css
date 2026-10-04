@@ -67,9 +67,9 @@ img { max-width: 100%; }
 /* Modal de cuenta */
 .panel-login {
   position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); z-index: 90;
-  display: flex; align-items: center; justify-content: center;
+  display: none; align-items: center; justify-content: center;
 }
-.panel-login[hidden] { display: none; }
+.panel-login.abierto { display: flex; }
 .panel-login__contenido {
   background: var(--blanco); padding: 2rem; border-radius: var(--radio);
   width: 90%; max-width: 420px; box-shadow: var(--sombra); position: relative;

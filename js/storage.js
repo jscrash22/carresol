@@ -4,27 +4,30 @@ const LS_CARRITO = 'carresol_carrito';
 const LS_FAVORITOS = 'carresol_favoritos';
 const SS_VISITA = 'carresol_ultima_visita';
 
-// --- localStorage ---
-export function guardarCarrito(carrito) {
-  try { localStorage.setItem(LS_CARRITO, JSON.stringify(carrito)); }
+// --- localStorage (por usuario) ---
+const claveCarrito = (usuario) => usuario ? `${LS_CARRITO}_${usuario}` : `${LS_CARRITO}_invitado`;
+const claveFavoritos = (usuario) => usuario ? `${LS_FAVORITOS}_${usuario}` : `${LS_FAVORITOS}_invitado`;
+
+export function guardarCarrito(carrito, usuario) {
+  try { localStorage.setItem(claveCarrito(usuario), JSON.stringify(carrito)); }
   catch (e) { console.error('Error guardando carrito:', e); }
 }
 
-export function cargarCarrito() {
+export function cargarCarrito(usuario) {
   try {
-    const raw = localStorage.getItem(LS_CARRITO);
+    const raw = localStorage.getItem(claveCarrito(usuario));
     return raw ? JSON.parse(raw) : [];
   } catch (e) { console.error('Error cargando carrito:', e); return []; }
 }
 
-export function guardarFavoritos(favs) {
-  try { localStorage.setItem(LS_FAVORITOS, JSON.stringify(favs)); }
+export function guardarFavoritos(favs, usuario) {
+  try { localStorage.setItem(claveFavoritos(usuario), JSON.stringify(favs)); }
   catch (e) { console.error('Error guardando favoritos:', e); }
 }
 
-export function cargarFavoritos() {
+export function cargarFavoritos(usuario) {
   try {
-    const raw = localStorage.getItem(LS_FAVORITOS);
+    const raw = localStorage.getItem(claveFavoritos(usuario));
     return raw ? JSON.parse(raw) : [];
   } catch (e) { console.error('Error cargando favoritos:', e); return []; }
 }

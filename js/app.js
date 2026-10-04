@@ -11,8 +11,23 @@ import { validarNombre, validarEmail, validarTelefono, validarMensaje, aplicarRe
 
 let productos = [];
 let filtroActual = 'todos';
+let usuarioActivo = null;
 
 const $ = (sel) => document.querySelector(sel);
+
+function abrirModalLogin() {
+  const m = $('#modal-login');
+  m.hidden = false;
+  m.classList.add('abierto');
+  const u = $('#login-usuario');
+  if (u) u.focus();
+}
+
+function cerrarModalLogin() {
+  const m = $('#modal-login');
+  m.hidden = true;
+  m.classList.remove('abierto');
+}
 
 // ===== Carrito panel =====
 function refrescarCarrito() {
@@ -37,6 +52,11 @@ function cambiarCantidad(id, delta) {
 }
 
 function agregarAlCarrito(p) {
+  if (!usuarioActivo) {
+    abrirModalLogin();
+    mostrarAlertaCarrito('Inicia sesión o crea una cuenta para agregar productos.');
+    return;
+  }
   const res = cart.agregarProducto(p);
   if (!res.ok) mostrarAlertaCarrito(res.mensaje);
   else mostrarAlertaCarrito('');
@@ -55,6 +75,10 @@ function refrescarFavoritos() {
 }
 
 function toggleFav(p, card) {
+  if (!usuarioActivo) {
+    abrirModalLogin();
+    return;
+  }
   const ahora = favs.toggleFavorito(p);
   const btn = card.querySelector('.btn-fav');
   if (btn) {
@@ -65,6 +89,7 @@ function toggleFav(p, card) {
 }
 
 function quitarFav(p) {
+  if (!usuarioActivo) { abrirModalLogin(); return; }
   favs.toggleFavorito(p);
   refrescarFavoritos();
   // refrescar corazón en catálogo
@@ -189,9 +214,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     try { return JSON.parse(localStorage.getItem(LS_USUARIOS)) || []; } catch (e) { return []; }
   };
 
-  const abrirModalLogin = () => { $('#modal-login').hidden = false; $('#login-usuario').focus(); };
-  const cerrarModalLogin = () => { $('#modal-login').hidden = true; };
-
   const activarSesion = (usuario) => {
     try {
       localStorage.setItem(LS_ULTIMO, usuario);
@@ -202,15 +224,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     $('#saludo').textContent = 'Hola, ' + usuario;
     $('#btn-salir').hidden = false;
     cerrarModalLogin();
+    usuarioActivo = usuario;
+    cart.inicializarCarrito(usuario);
+    favs.inicializarFavoritos(usuario);
+    refrescarCarrito();
+    refrescarFavoritos();
   };
 
   try {
     const enSesion = sessionStorage.getItem(SS_SESION);
-    if (enSesion && getCookie('carresol_usuario')) {
+    if (enSesion && enSesion !== 'activa' && getCookie('carresol_usuario')) {
+      usuarioActivo = enSesion;
+      cart.inicializarCarrito(enSesion);
+      favs.inicializarFavoritos(enSesion);
       $('#saludo').hidden = false;
       $('#saludo').textContent = 'Hola, ' + enSesion;
       $('#btn-salir').hidden = false;
     } else {
+      try { sessionStorage.removeItem(SS_SESION); } catch (e) {}
       const ultimo = localStorage.getItem(LS_ULTIMO);
       if (ultimo) $('#login-usuario').value = ultimo;
     }
@@ -218,7 +249,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   $('#btn-usuario').addEventListener('click', abrirModalLogin);
   $('#btn-cerrar-login').addEventListener('click', cerrarModalLogin);
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !$('#modal-login').hidden) cerrarModalLogin(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && $('#modal-login').classList.contains('abierto')) cerrarModalLogin(); });
 
   $('#tab-login').addEventListener('click', () => {
     $('#tab-login').classList.add('activo'); $('#tab-registro').classList.remove('activo');
@@ -262,6 +293,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.cookie = 'carresol_usuario=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax';
     $('#saludo').hidden = true;
     $('#btn-salir').hidden = true;
+    usuarioActivo = null;
+    cart.inicializarCarrito(null);
+    favs.inicializarFavoritos(null);
+    refrescarCarrito();
+    refrescarFavoritos();
   });
 
   productos = await obtenerProductos();

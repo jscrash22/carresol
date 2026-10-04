@@ -7,9 +7,11 @@ const IVA = 0.15;
 
 let carrito = [];
 let ultimaActualizacion = null;
+let usuarioActual = null;
 
-export function inicializarCarrito() {
-  carrito = cargarCarrito();
+export function inicializarCarrito(usuario = null) {
+  usuarioActual = usuario;
+  carrito = cargarCarrito(usuario);
   ultimaActualizacion = new Date().toISOString();
 }
 
@@ -27,7 +29,7 @@ function totalUnidades() {
 
 function tocar() {
   ultimaActualizacion = new Date().toISOString();
-  guardarCarrito(carrito);
+  guardarCarrito(carrito, usuarioActual);
 }
 
 export function agregarProducto(producto, cantidad = 1) {

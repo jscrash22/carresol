@@ -2,9 +2,11 @@
 import { guardarFavoritos, cargarFavoritos } from './storage.js';
 
 let favoritos = [];
+let usuarioActual = null;
 
-export function inicializarFavoritos() {
-  favoritos = cargarFavoritos();
+export function inicializarFavoritos(usuario = null) {
+  usuarioActual = usuario;
+  favoritos = cargarFavoritos(usuario);
 }
 
 export function getFavoritos() {
@@ -21,11 +23,11 @@ export function toggleFavorito(producto) {
   } else {
     favoritos.push(producto);
   }
-  guardarFavoritos(favoritos);
+  guardarFavoritos(favoritos, usuarioActual);
   return esFavorito(producto.id);
 }
 
 export function limpiarFavoritos() {
   favoritos = [];
-  guardarFavoritos(favoritos);
+  guardarFavoritos(favoritos, usuarioActual);
 }
