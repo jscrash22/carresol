@@ -8,7 +8,7 @@ Diseño minimalista tipo Cartier/Tiffany: fondo blanco puro y blanco roto, acent
 
 ## 🌐 Demo en vivo
 
-`https://USUARIO.github.io/carresol/`
+`https://jscrash22.github.io/carresol/`
 
 ## 🛠️ Tecnologías
 
@@ -56,7 +56,7 @@ git init
 git add .
 git commit -m "Carresol - Proyecto 1"
 git branch -M main
-git remote add origin https://github.com/USUARIO/carresol.git
+git remote add origin https://github.com/jscrash22/carresol.git
 git push -u origin main
 ```
 
