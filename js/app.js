@@ -127,7 +127,6 @@ async function inicializarPanelCarrito() {
   };
 
   $('#btn-abrir-carrito').addEventListener('click', abrir);
-  $('#link-carrito').addEventListener('click', abrir);
   $('#btn-cont-carrito').addEventListener('click', abrir);
   $('#btn-cont-fav').addEventListener('click', () => $('#favoritos').scrollIntoView({ behavior: 'smooth' }));
   btnCerrar.addEventListener('click', cerrar);
@@ -181,10 +180,53 @@ document.addEventListener('DOMContentLoaded', async () => {
   favs.inicializarFavoritos();
   registrarVisita();
 
-  // Cookie de usuario invitado (30 días)
-  if (!getCookie('carresol_usuario')) {
+  // ===== Login simulado =====
+  const LS_USUARIO = 'carresol_usuario_nombre';
+  const SS_SESION = 'carresol_sesion';
+
+  const mostrarLogin = () => {
+    $('#login').style.display = '';
+    $('#saludo').hidden = true;
+    $('#btn-salir').hidden = true;
+    try {
+      const guardado = localStorage.getItem(LS_USUARIO);
+      if (guardado) $('#login-nombre').value = guardado;
+    } catch (e) { console.error(e); }
+  };
+
+  const iniciarSesion = (nombre) => {
+    try { localStorage.setItem(LS_USUARIO, nombre); } catch (e) { console.error(e); }
+    try { sessionStorage.setItem(SS_SESION, 'activa'); } catch (e) { console.error(e); }
     setCookie('carresol_usuario', 'invitado-' + Date.now(), 30);
-  }
+    $('#login').style.display = 'none';
+    $('#saludo').hidden = false;
+    $('#saludo').textContent = 'Hola, ' + nombre;
+    $('#btn-salir').hidden = false;
+  };
+
+  try {
+    const sesionActiva = sessionStorage.getItem(SS_SESION) === 'activa';
+    const nombreGuardado = localStorage.getItem(LS_USUARIO);
+    if (sesionActiva && nombreGuardado && getCookie('carresol_usuario')) {
+      iniciarSesion(nombreGuardado);
+      try { sessionStorage.setItem(SS_SESION, 'activa'); } catch (e) {}
+    } else {
+      mostrarLogin();
+    }
+  } catch (e) { mostrarLogin(); }
+
+  $('#form-login').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const nombre = $('#login-nombre').value.trim();
+    if (nombre.length >= 2) iniciarSesion(nombre);
+  });
+
+  $('#btn-salir').addEventListener('click', () => {
+    try { sessionStorage.removeItem(SS_SESION); } catch (e) {}
+    try { localStorage.removeItem(LS_USUARIO); } catch (e) {}
+    document.cookie = 'carresol_usuario=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax';
+    mostrarLogin();
+  });
 
   productos = await obtenerProductos();
 

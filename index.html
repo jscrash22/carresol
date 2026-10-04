@@ -22,19 +22,31 @@
       <nav id="menu-principal" class="nav" aria-label="Navegación principal">
         <a href="#inicio">Inicio</a>
         <a href="#catalogo">Catálogo</a>
-        <a href="#favoritos">Favoritos</a>
-        <a href="#carrito" id="link-carrito">Carrito</a>
         <a href="#contacto">Contacto</a>
       </nav>
 
       <div class="contadores">
         <button id="btn-cont-carrito" class="contador" aria-label="Abrir carrito de compras">🛒 <span id="cart-count">0</span></button>
         <button id="btn-cont-fav" class="contador" aria-label="Ver favoritos">♥ <span id="fav-count">0</span></button>
+        <span id="saludo" class="saludo" hidden></span>
+        <button id="btn-salir" class="contador" hidden>Salir</button>
       </div>
     </div>
   </header>
 
   <main id="contenido">
+    <section id="login" class="seccion login-seccion">
+      <h2>Iniciar sesión</h2>
+      <p>Ingresa tu nombre para continuar como invitado.</p>
+      <form id="form-login">
+        <div class="campo">
+          <label for="login-nombre">Nombre de usuario</label>
+          <input type="text" id="login-nombre" required maxlength="60" />
+        </div>
+        <button type="submit" class="btn btn-dorado">Entrar</button>
+      </form>
+    </section>
+
     <section id="inicio" class="hero">
       <h1>Elegancia que brilla en cada detalle</h1>
       <p>Descubre la colección exclusiva de Carresol</p>
@@ -42,7 +54,7 @@
     </section>
 
     <section id="catalogo" class="seccion">
-      <h2>Catálogo</h2>
+      <h2>Nuestra colección</h2>
       <div class="filtros" role="group" aria-label="Filtrar por categoría">
         <button class="filtro activo" data-categoria="todos">Todos</button>
         <button class="filtro" data-categoria="relojes">Relojes</button>
