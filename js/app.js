@@ -128,6 +128,8 @@ async function inicializarPanelCarrito() {
 
   $('#btn-abrir-carrito').addEventListener('click', abrir);
   $('#link-carrito').addEventListener('click', abrir);
+  $('#btn-cont-carrito').addEventListener('click', abrir);
+  $('#btn-cont-fav').addEventListener('click', () => $('#favoritos').scrollIntoView({ behavior: 'smooth' }));
   btnCerrar.addEventListener('click', cerrar);
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && panel.classList.contains('abierto')) cerrar(); });
 
