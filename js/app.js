@@ -180,52 +180,88 @@ document.addEventListener('DOMContentLoaded', async () => {
   favs.inicializarFavoritos();
   registrarVisita();
 
-  // ===== Login simulado =====
-  const LS_USUARIO = 'carresol_usuario_nombre';
+  // ===== Login simulado con cuentas =====
+  const LS_USUARIOS = 'carresol_usuarios';
+  const LS_ULTIMO = 'carresol_ultimo_usuario';
   const SS_SESION = 'carresol_sesion';
 
-  const mostrarLogin = () => {
-    $('#login').style.display = '';
-    $('#saludo').hidden = true;
-    $('#btn-salir').hidden = true;
-    try {
-      const guardado = localStorage.getItem(LS_USUARIO);
-      if (guardado) $('#login-nombre').value = guardado;
-    } catch (e) { console.error(e); }
+  const getUsuarios = () => {
+    try { return JSON.parse(localStorage.getItem(LS_USUARIOS)) || []; } catch (e) { return []; }
   };
 
-  const iniciarSesion = (nombre) => {
-    try { localStorage.setItem(LS_USUARIO, nombre); } catch (e) { console.error(e); }
-    try { sessionStorage.setItem(SS_SESION, 'activa'); } catch (e) { console.error(e); }
-    setCookie('carresol_usuario', 'invitado-' + Date.now(), 30);
-    $('#login').style.display = 'none';
+  const abrirModalLogin = () => { $('#modal-login').hidden = false; $('#login-usuario').focus(); };
+  const cerrarModalLogin = () => { $('#modal-login').hidden = true; };
+
+  const activarSesion = (usuario) => {
+    try {
+      localStorage.setItem(LS_ULTIMO, usuario);
+      sessionStorage.setItem(SS_SESION, usuario);
+      setCookie('carresol_usuario', 'token-' + Date.now(), 30);
+    } catch (e) { console.error(e); }
     $('#saludo').hidden = false;
-    $('#saludo').textContent = 'Hola, ' + nombre;
+    $('#saludo').textContent = 'Hola, ' + usuario;
     $('#btn-salir').hidden = false;
+    cerrarModalLogin();
   };
 
   try {
-    const sesionActiva = sessionStorage.getItem(SS_SESION) === 'activa';
-    const nombreGuardado = localStorage.getItem(LS_USUARIO);
-    if (sesionActiva && nombreGuardado && getCookie('carresol_usuario')) {
-      iniciarSesion(nombreGuardado);
-      try { sessionStorage.setItem(SS_SESION, 'activa'); } catch (e) {}
+    const enSesion = sessionStorage.getItem(SS_SESION);
+    if (enSesion && getCookie('carresol_usuario')) {
+      $('#saludo').hidden = false;
+      $('#saludo').textContent = 'Hola, ' + enSesion;
+      $('#btn-salir').hidden = false;
     } else {
-      mostrarLogin();
+      const ultimo = localStorage.getItem(LS_ULTIMO);
+      if (ultimo) $('#login-usuario').value = ultimo;
     }
-  } catch (e) { mostrarLogin(); }
+  } catch (e) { console.error(e); }
+
+  $('#btn-usuario').addEventListener('click', abrirModalLogin);
+  $('#btn-cerrar-login').addEventListener('click', cerrarModalLogin);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !$('#modal-login').hidden) cerrarModalLogin(); });
+
+  $('#tab-login').addEventListener('click', () => {
+    $('#tab-login').classList.add('activo'); $('#tab-registro').classList.remove('activo');
+    $('#form-login').hidden = false; $('#form-registro').hidden = true;
+  });
+  $('#tab-registro').addEventListener('click', () => {
+    $('#tab-registro').classList.add('activo'); $('#tab-login').classList.remove('activo');
+    $('#form-registro').hidden = false; $('#form-login').hidden = true;
+  });
+
+  $('#form-registro').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const usuario = $('#reg-usuario').value.trim();
+    const password = $('#reg-password').value;
+    if (usuario.length < 2) { $('#reg-error').textContent = 'Usuario muy corto.'; return; }
+    if (password.length < 4) { $('#reg-error').textContent = 'Contraseña mínimo 4 caracteres.'; return; }
+    const usuarios = getUsuarios();
+    if (usuarios.some(u => u.usuario === usuario)) { $('#reg-error').textContent = 'Ese usuario ya existe.'; return; }
+    usuarios.push({ usuario, password });
+    try { localStorage.setItem(LS_USUARIOS, JSON.stringify(usuarios)); } catch (e2) { console.error(e2); }
+    $('#reg-error').textContent = '';
+    activarSesion(usuario);
+  });
 
   $('#form-login').addEventListener('submit', (e) => {
     e.preventDefault();
-    const nombre = $('#login-nombre').value.trim();
-    if (nombre.length >= 2) iniciarSesion(nombre);
+    const usuario = $('#login-usuario').value.trim();
+    const password = $('#login-password').value;
+    const usuarios = getUsuarios();
+    const encontrado = usuarios.find(u => u.usuario === usuario && u.password === password);
+    if (encontrado) {
+      $('#login-error').textContent = '';
+      activarSesion(usuario);
+    } else {
+      $('#login-error').textContent = 'Usuario o contraseña incorrectos.';
+    }
   });
 
   $('#btn-salir').addEventListener('click', () => {
     try { sessionStorage.removeItem(SS_SESION); } catch (e) {}
-    try { localStorage.removeItem(LS_USUARIO); } catch (e) {}
     document.cookie = 'carresol_usuario=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax';
-    mostrarLogin();
+    $('#saludo').hidden = true;
+    $('#btn-salir').hidden = true;
   });
 
   productos = await obtenerProductos();

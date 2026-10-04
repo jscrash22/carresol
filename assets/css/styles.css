@@ -64,6 +64,19 @@ img { max-width: 100%; }
 .btn-hamburguesa { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--blanco); }
 .login-seccion { max-width: 500px; margin: 2rem auto; background: var(--blanco-roto); border: 1px solid var(--gris-borde); border-radius: var(--radio); box-shadow: var(--sombra); }
 
+/* Modal de cuenta */
+.panel-login {
+  position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); z-index: 90;
+  display: flex; align-items: center; justify-content: center;
+}
+.panel-login[hidden] { display: none; }
+.panel-login__contenido {
+  background: var(--blanco); padding: 2rem; border-radius: var(--radio);
+  width: 90%; max-width: 420px; box-shadow: var(--sombra); position: relative;
+}
+.panel-login__contenido .btn-cerrar { position: absolute; top: 1rem; right: 1rem; }
+.tabs { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+
 /* ===== Hero ===== */
 .hero {
   text-align: center; padding: 6rem 1rem; color: var(--blanco);
