@@ -97,10 +97,42 @@ function quitarFav(p) {
   if (idx >= 0) filtrarYRenderizar();
 }
 
+const POR_PAGINA = 8;
+let paginaActual = 1;
+
 // ===== Catálogo =====
 function filtrarYRenderizar() {
   const lista = filtroActual === 'todos' ? productos : productos.filter(p => p.categoria === filtroActual);
-  renderizarProductos(lista, $('#grid-productos'), agregarAlCarrito, toggleFav);
+  const totalPaginas = Math.max(1, Math.ceil(lista.length / POR_PAGINA));
+  if (paginaActual > totalPaginas) paginaActual = totalPaginas;
+  const inicio = (paginaActual - 1) * POR_PAGINA;
+  const pagina = lista.slice(inicio, inicio + POR_PAGINA);
+  renderizarProductos(pagina, $('#grid-productos'), agregarAlCarrito, toggleFav);
+  renderizarPaginacion(totalPaginas, lista.length);
+}
+
+function renderizarPaginacion(totalPaginas, totalProductos) {
+  const nav = $('#paginacion');
+  nav.innerHTML = '';
+  if (totalPaginas <= 1) return;
+  const btnPrev = document.createElement('button');
+  btnPrev.textContent = '« Anterior';
+  btnPrev.disabled = paginaActual === 1;
+  btnPrev.addEventListener('click', () => { paginaActual--; filtrarYRenderizar(); });
+  nav.appendChild(btnPrev);
+  for (let i = 1; i <= totalPaginas; i++) {
+    const b = document.createElement('button');
+    b.textContent = i;
+    b.classList.toggle('activo', i === paginaActual);
+    b.setAttribute('aria-label', 'Página ' + i);
+    b.addEventListener('click', () => { paginaActual = i; filtrarYRenderizar(); });
+    nav.appendChild(b);
+  }
+  const btnNext = document.createElement('button');
+  btnNext.textContent = 'Siguiente »';
+  btnNext.disabled = paginaActual === totalPaginas;
+  btnNext.addEventListener('click', () => { paginaActual++; filtrarYRenderizar(); });
+  nav.appendChild(btnNext);
 }
 
 // ===== Menú hamburguesa =====
@@ -307,6 +339,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       document.querySelectorAll('.filtro').forEach(b => b.classList.remove('activo'));
       btn.classList.add('activo');
       filtroActual = btn.dataset.categoria;
+      paginaActual = 1;
       filtrarYRenderizar();
     });
   });

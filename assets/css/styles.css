@@ -118,6 +118,13 @@ img { max-width: 100%; }
 .btn-fav.activo { color: #c0392b; }
 
 .mensaje-vacio { color: #777; font-style: italic; }
+.paginacion { display: flex; gap: 0.5rem; justify-content: center; margin-top: 2rem; flex-wrap: wrap; }
+.paginacion button {
+  border: 1px solid var(--dorado-claro); background: var(--blanco); color: var(--dorado-oscuro);
+  padding: 0.4rem 0.9rem; border-radius: var(--radio); cursor: pointer; transition: var(--transicion);
+}
+.paginacion button.activo, .paginacion button:hover { background: var(--dorado); color: var(--blanco); }
+.paginacion button:disabled { opacity: 0.5; cursor: not-allowed; }
 .alerta { color: #b00020; font-weight: 600; }
 .exito { color: #1e7e34; font-weight: 600; }
 
