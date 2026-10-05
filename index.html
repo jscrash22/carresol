@@ -21,7 +21,7 @@
 
       <nav id="menu-principal" class="nav" aria-label="Navegación principal">
         <a href="#inicio">Inicio</a>
-        <a href="#catalogo">Catálogo</a>
+        <a href="#" id="link-catalogo">☰ Catálogo</a>
         <a href="#contacto">Contacto</a>
       </nav>
 
@@ -39,28 +39,10 @@
     <section id="inicio" class="hero">
       <h1>Elegancia que brilla en cada detalle</h1>
       <p>Descubre la colección exclusiva de Carresol</p>
-      <a class="btn btn-dorado" href="#catalogo">Explorar catálogo</a>
+      <a class="btn btn-dorado" href="#" id="cta-catalogo">Explorar catálogo</a>
     </section>
 
-    <section id="catalogo" class="seccion">
-      <h2>Nuestra colección</h2>
-      <div class="filtros" role="group" aria-label="Filtrar por categoría">
-        <button class="filtro activo" data-categoria="todos">Todos</button>
-        <button class="filtro" data-categoria="relojes">Relojes</button>
-        <button class="filtro" data-categoria="collares">Collares</button>
-        <button class="filtro" data-categoria="pulseras">Pulseras</button>
-        <button class="filtro" data-categoria="anillos">Anillos</button>
-        <button class="filtro" data-categoria="aretes">Aretes</button>
-      </div>
-      <div id="grid-productos" class="grid"></div>
-      <nav id="paginacion" class="paginacion" aria-label="Navegación de páginas del catálogo"></nav>
-    </section>
-
-    <section id="favoritos" class="seccion seccion--alterna">
-      <h2>Favoritos</h2>
-      <div id="lista-favoritos" class="grid"></div>
-      <p id="favoritos-vacio" class="mensaje-vacio" hidden>Aún no tienes favoritos. Explora el catálogo y marca tus piezas preferidas.</p>
-    </section>
+    <!-- La sección Catálogo ahora es un panel tipo hamburguesa -->
 
     <section id="contacto" class="seccion">
       <h2>Contacto</h2>
@@ -114,6 +96,36 @@
     </div>
   </aside>
 
+  <aside id="panel-catalogo" class="panel-catalogo" role="dialog" aria-modal="true" aria-labelledby="titulo-catalogo" hidden>
+    <div class="panel-catalogo__contenido">
+      <div class="panel-carrito__header">
+        <h2 id="titulo-catalogo">Nuestra colección</h2>
+        <button id="btn-cerrar-catalogo" class="btn-cerrar" aria-label="Cerrar catálogo">✕</button>
+      </div>
+      <div class="filtros" role="group" aria-label="Filtrar por categoría">
+        <button class="filtro activo" data-categoria="todos">Todos</button>
+        <button class="filtro" data-categoria="relojes">Relojes</button>
+        <button class="filtro" data-categoria="collares">Collares</button>
+        <button class="filtro" data-categoria="pulseras">Pulseras</button>
+        <button class="filtro" data-categoria="anillos">Anillos</button>
+        <button class="filtro" data-categoria="aretes">Aretes</button>
+      </div>
+      <div id="grid-productos" class="grid"></div>
+      <nav id="paginacion" class="paginacion" aria-label="Navegación de páginas del catálogo"></nav>
+    </div>
+  </aside>
+
+  <aside id="panel-favoritos" class="panel-carrito" role="dialog" aria-modal="true" aria-labelledby="titulo-favoritos" hidden>
+    <div class="panel-carrito__contenido">
+      <div class="panel-carrito__header">
+        <h2 id="titulo-favoritos">Favoritos</h2>
+        <button id="btn-cerrar-favoritos" class="btn-cerrar" aria-label="Cerrar favoritos">✕</button>
+      </div>
+      <div id="lista-favoritos" class="grid" style="grid-template-columns:1fr;"></div>
+      <p id="favoritos-vacio" class="mensaje-vacio" hidden>Aún no tienes favoritos. Explora el catálogo y marca tus piezas preferidas.</p>
+    </div>
+  </aside>
+
   <aside id="modal-login" class="panel-login" role="dialog" aria-modal="true" aria-labelledby="titulo-login" hidden>
     <div class="panel-login__contenido">
       <button id="btn-cerrar-login" class="btn-cerrar" aria-label="Cerrar">✕</button>
@@ -138,6 +150,14 @@
         <div class="campo">
           <label for="reg-usuario">Usuario</label>
           <input type="text" id="reg-usuario" required maxlength="60" />
+        </div>
+        <div class="campo">
+          <label for="reg-nombre">Nombre</label>
+          <input type="text" id="reg-nombre" required maxlength="60" />
+        </div>
+        <div class="campo">
+          <label for="reg-apellido">Apellido</label>
+          <input type="text" id="reg-apellido" required maxlength="60" />
         </div>
         <div class="campo">
           <label for="reg-password">Contraseña (mínimo 4)</label>

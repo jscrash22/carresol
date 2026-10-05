@@ -119,9 +119,8 @@ function renderizarPaginacion(totalPaginas, totalProductos) {
     paginaActual = n;
     filtrarYRenderizar();
     requestAnimationFrame(() => {
-      const el = document.getElementById('catalogo');
-      const y = el.getBoundingClientRect().top + window.scrollY - 70;
-      window.scrollTo({ top: y, behavior: 'smooth' });
+      const el = document.querySelector('#panel-catalogo .panel-catalogo__contenido');
+      if (el) el.scrollTo({ top: 0, behavior: 'smooth' });
     });
   };
   const btnPrev = document.createElement('button');
@@ -172,6 +171,27 @@ function inicializarMenu() {
   });
 }
 
+// ===== Panel favoritos =====
+function inicializarPanelFavoritos() {
+  const panelFavs = $('#panel-favoritos');
+  const abrirFavoritos = () => { panelFavs.hidden = false; requestAnimationFrame(() => panelFavs.classList.add('abierto')); refrescarFavoritos(); };
+  const cerrarFavoritos = () => { panelFavs.classList.remove('abierto'); setTimeout(() => { panelFavs.hidden = true; }, 250); };
+  $('#btn-cont-fav').addEventListener('click', (e) => { e.preventDefault(); abrirFavoritos(); });
+  $('#btn-cerrar-favoritos').addEventListener('click', cerrarFavoritos);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && panelFavs.classList.contains('abierto')) cerrarFavoritos(); });
+}
+
+// ===== Panel catálogo (hamburguesa) =====
+function inicializarPanelCatalogo() {
+  const panelCat = $('#panel-catalogo');
+  const abrirCatalogo = (e) => { if (e) e.preventDefault(); panelCat.hidden = false; };
+  const cerrarCatalogo = () => { panelCat.hidden = true; };
+  $('#link-catalogo').addEventListener('click', abrirCatalogo);
+  $('#cta-catalogo').addEventListener('click', abrirCatalogo);
+  $('#btn-cerrar-catalogo').addEventListener('click', cerrarCatalogo);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !panelCat.hidden) cerrarCatalogo(); });
+}
+
 // ===== Panel carrito abrir/cerrar =====
 async function inicializarPanelCarrito() {
   const panel = $('#panel-carrito');
@@ -194,7 +214,6 @@ async function inicializarPanelCarrito() {
 
   $('#btn-abrir-carrito').addEventListener('click', abrir);
   $('#btn-cont-carrito').addEventListener('click', abrir);
-  $('#btn-cont-fav').addEventListener('click', () => $('#favoritos').scrollIntoView({ behavior: 'smooth' }));
   btnCerrar.addEventListener('click', cerrar);
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && panel.classList.contains('abierto')) cerrar(); });
 
@@ -259,14 +278,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     try { return JSON.parse(localStorage.getItem(LS_USUARIOS)) || []; } catch (e) { return []; }
   };
 
-  const activarSesion = (usuario) => {
+  const activarSesion = (usuario, nombreMostrar) => {
     try {
       localStorage.setItem(LS_ULTIMO, usuario);
       sessionStorage.setItem(SS_SESION, usuario);
       setCookie('carresol_usuario', 'token-' + Date.now(), 30);
     } catch (e) { console.error(e); }
     $('#saludo').hidden = false;
-    $('#saludo').textContent = 'Hola, ' + usuario;
+    $('#saludo').textContent = 'Hola, ' + (nombreMostrar || 'Carresol');
     $('#btn-salir').hidden = false;
     cerrarModalLogin();
     usuarioActivo = usuario;
@@ -282,8 +301,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       usuarioActivo = enSesion;
       cart.inicializarCarrito(enSesion);
       favs.inicializarFavoritos(enSesion);
+      const u = getUsuarios().find(x => x.usuario === enSesion);
+      const nombreMostrar = u && u.nombre ? u.nombre + (u.apellido ? ' ' + u.apellido : '') : enSesion;
       $('#saludo').hidden = false;
-      $('#saludo').textContent = 'Hola, ' + enSesion;
+      $('#saludo').textContent = 'Hola, ' + nombreMostrar;
       $('#btn-salir').hidden = false;
     } else {
       try { sessionStorage.removeItem(SS_SESION); } catch (e) {}
@@ -309,14 +330,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     e.preventDefault();
     const usuario = $('#reg-usuario').value.trim();
     const password = $('#reg-password').value;
+    const nombre = $('#reg-nombre').value.trim();
+    const apellido = $('#reg-apellido').value.trim();
     if (usuario.length < 2) { $('#reg-error').textContent = 'Usuario muy corto.'; return; }
+    if (nombre.length < 2 || apellido.length < 2) { $('#reg-error').textContent = 'Ingresa nombre y apellido.'; return; }
     if (password.length < 4) { $('#reg-error').textContent = 'Contraseña mínimo 4 caracteres.'; return; }
     const usuarios = getUsuarios();
     if (usuarios.some(u => u.usuario === usuario)) { $('#reg-error').textContent = 'Ese usuario ya existe.'; return; }
-    usuarios.push({ usuario, password });
+    usuarios.push({ usuario, nombre, apellido, password });
     try { localStorage.setItem(LS_USUARIOS, JSON.stringify(usuarios)); } catch (e2) { console.error(e2); }
     $('#reg-error').textContent = '';
-    activarSesion(usuario);
+    activarSesion(usuario, nombre + ' ' + apellido);
   });
 
   $('#form-login').addEventListener('submit', (e) => {
@@ -327,7 +351,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const encontrado = usuarios.find(u => u.usuario === usuario && u.password === password);
     if (encontrado) {
       $('#login-error').textContent = '';
-      activarSesion(usuario);
+      activarSesion(usuario, encontrado.nombre ? encontrado.nombre + ' ' + (encontrado.apellido || '') : usuario);
     } else {
       $('#login-error').textContent = 'Usuario o contraseña incorrectos.';
     }
@@ -362,6 +386,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   refrescarCarrito();
   inicializarMenu();
   inicializarPanelCarrito();
+  inicializarPanelFavoritos();
+  inicializarPanelCatalogo();
   inicializarFormulario();
 
   $('#btn-vaciar').addEventListener('click', () => { cart.vaciarCarrito(); refrescarCarrito(); });

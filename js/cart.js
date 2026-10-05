@@ -2,8 +2,8 @@
 import { guardarCarrito, cargarCarrito, guardarHistorial } from './storage.js';
 import { formatearPrecio } from './repo.js';
 
-const LIMITE_UNIDADES = 20;
 const IVA = 0.15;
+const MAX_POR_PRODUCTO = 10;
 
 let carrito = [];
 let ultimaActualizacion = null;
@@ -23,10 +23,6 @@ export function getUltimaActualizacion() {
   return ultimaActualizacion;
 }
 
-function totalUnidades() {
-  return carrito.reduce((acc, item) => acc + item.cantidad, 0);
-}
-
 function tocar() {
   ultimaActualizacion = new Date().toISOString();
   guardarCarrito(carrito, usuarioActual);
@@ -36,10 +32,11 @@ export function agregarProducto(producto, cantidad = 1) {
   if (!producto || typeof producto.precio !== 'number' || producto.precio <= 0) {
     return { ok: false, mensaje: 'Producto con precio inválido. Operación rechazada.' };
   }
-  if (totalUnidades() + cantidad > LIMITE_UNIDADES) {
-    return { ok: false, mensaje: `Límite de ${LIMITE_UNIDADES} unidades alcanzado. Finaliza tu compra o elimina productos.` };
-  }
   const existente = carrito.find(i => i.id === producto.id);
+  const nuevaCant = (existente ? existente.cantidad : 0) + cantidad;
+  if (nuevaCant > MAX_POR_PRODUCTO) {
+    return { ok: false, mensaje: `Máximo ${MAX_POR_PRODUCTO} unidades por producto.` };
+  }
   if (existente) existente.cantidad += cantidad;
   else carrito.push({ ...producto, cantidad });
   tocar();
@@ -59,8 +56,8 @@ export function cambiarCantidad(id, delta) {
   if (nueva <= 0) {
     return eliminarProducto(id);
   }
-  if (delta > 0 && totalUnidades() + delta > LIMITE_UNIDADES) {
-    return { ok: false, mensaje: `Límite de ${LIMITE_UNIDADES} unidades alcanzado. Finaliza tu compra o elimina productos.` };
+  if (delta > 0 && nueva > MAX_POR_PRODUCTO) {
+    return { ok: false, mensaje: `Máximo ${MAX_POR_PRODUCTO} unidades por producto.` };
   }
   item.cantidad = nueva;
   tocar();
