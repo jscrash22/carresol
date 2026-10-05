@@ -97,50 +97,9 @@ function quitarFav(p) {
   if (idx >= 0) filtrarYRenderizar();
 }
 
-const POR_PAGINA = 8;
-let paginaActual = 1;
-
-// ===== Catálogo =====
 function filtrarYRenderizar() {
   const lista = filtroActual === 'todos' ? productos : productos.filter(p => p.categoria === filtroActual);
-  const totalPaginas = Math.max(1, Math.ceil(lista.length / POR_PAGINA));
-  if (paginaActual > totalPaginas) paginaActual = totalPaginas;
-  const inicio = (paginaActual - 1) * POR_PAGINA;
-  const pagina = lista.slice(inicio, inicio + POR_PAGINA);
-  renderizarProductos(pagina, $('#grid-productos'), agregarAlCarrito, toggleFav);
-  renderizarPaginacion(totalPaginas, lista.length);
-}
-
-function renderizarPaginacion(totalPaginas, totalProductos) {
-  const nav = $('#paginacion');
-  nav.innerHTML = '';
-  if (totalPaginas <= 1) return;
-  const irPagina = (n) => {
-    paginaActual = n;
-    filtrarYRenderizar();
-    requestAnimationFrame(() => {
-      const el = document.querySelector('#panel-catalogo .panel-catalogo__contenido');
-      if (el) el.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  };
-  const btnPrev = document.createElement('button');
-  btnPrev.textContent = '« Anterior';
-  btnPrev.disabled = paginaActual === 1;
-  btnPrev.addEventListener('click', () => irPagina(paginaActual - 1));
-  nav.appendChild(btnPrev);
-  for (let i = 1; i <= totalPaginas; i++) {
-    const b = document.createElement('button');
-    b.textContent = i;
-    b.classList.toggle('activo', i === paginaActual);
-    b.setAttribute('aria-label', 'Página ' + i);
-    b.addEventListener('click', () => irPagina(i));
-    nav.appendChild(b);
-  }
-  const btnNext = document.createElement('button');
-  btnNext.textContent = 'Siguiente »';
-  btnNext.disabled = paginaActual === totalPaginas;
-  btnNext.addEventListener('click', () => irPagina(paginaActual + 1));
-  nav.appendChild(btnNext);
+  renderizarProductos(lista, $('#grid-productos'), agregarAlCarrito, toggleFav);
 }
 
 // ===== Menú hamburguesa =====
@@ -184,10 +143,9 @@ function inicializarPanelFavoritos() {
 // ===== Panel catálogo (hamburguesa) =====
 function inicializarPanelCatalogo() {
   const panelCat = $('#panel-catalogo');
-  const abrirCatalogo = (e) => { if (e) e.preventDefault(); panelCat.hidden = false; };
-  const cerrarCatalogo = () => { panelCat.hidden = true; };
+  const abrirCatalogo = (e) => { if (e) e.preventDefault(); panelCat.hidden = false; requestAnimationFrame(() => panelCat.classList.add('abierto')); };
+  const cerrarCatalogo = () => { panelCat.classList.remove('abierto'); setTimeout(() => { panelCat.hidden = true; }, 250); };
   $('#link-catalogo').addEventListener('click', abrirCatalogo);
-  $('#cta-catalogo').addEventListener('click', abrirCatalogo);
   $('#btn-cerrar-catalogo').addEventListener('click', cerrarCatalogo);
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !panelCat.hidden) cerrarCatalogo(); });
 }
@@ -376,8 +334,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       document.querySelectorAll('.filtro').forEach(b => b.classList.remove('activo'));
       btn.classList.add('activo');
       filtroActual = btn.dataset.categoria;
-      paginaActual = 1;
       filtrarYRenderizar();
+      const panelCat = $('#panel-catalogo');
+      panelCat.classList.remove('abierto');
+      setTimeout(() => { panelCat.hidden = true; }, 250);
     });
   });
 

@@ -39,10 +39,13 @@
     <section id="inicio" class="hero">
       <h1>Elegancia que brilla en cada detalle</h1>
       <p>Descubre la colección exclusiva de Carresol</p>
-      <a class="btn btn-dorado" href="#" id="cta-catalogo">Explorar catálogo</a>
+      <a class="btn btn-dorado" href="#catalogo" id="cta-catalogo">Explorar catálogo</a>
     </section>
 
-    <!-- La sección Catálogo ahora es un panel tipo hamburguesa -->
+    <section id="catalogo" class="seccion">
+      <h2>Nuestra colección</h2>
+      <div id="grid-productos" class="grid"></div>
+    </section>
 
     <section id="contacto" class="seccion">
       <h2>Contacto</h2>
@@ -96,13 +99,13 @@
     </div>
   </aside>
 
-  <aside id="panel-catalogo" class="panel-catalogo" role="dialog" aria-modal="true" aria-labelledby="titulo-catalogo" hidden>
-    <div class="panel-catalogo__contenido">
+  <aside id="panel-catalogo" class="panel-carrito" role="dialog" aria-modal="true" aria-labelledby="titulo-catalogo" hidden>
+    <div class="panel-carrito__contenido">
       <div class="panel-carrito__header">
-        <h2 id="titulo-catalogo">Nuestra colección</h2>
+        <h2 id="titulo-catalogo">Catálogo</h2>
         <button id="btn-cerrar-catalogo" class="btn-cerrar" aria-label="Cerrar catálogo">✕</button>
       </div>
-      <div class="filtros" role="group" aria-label="Filtrar por categoría">
+      <div class="filtros filtros-vertical" role="group" aria-label="Filtrar por categoría">
         <button class="filtro activo" data-categoria="todos">Todos</button>
         <button class="filtro" data-categoria="relojes">Relojes</button>
         <button class="filtro" data-categoria="collares">Collares</button>
@@ -110,8 +113,6 @@
         <button class="filtro" data-categoria="anillos">Anillos</button>
         <button class="filtro" data-categoria="aretes">Aretes</button>
       </div>
-      <div id="grid-productos" class="grid"></div>
-      <nav id="paginacion" class="paginacion" aria-label="Navegación de páginas del catálogo"></nav>
     </div>
   </aside>
 
