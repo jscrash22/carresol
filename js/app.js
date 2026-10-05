@@ -115,23 +115,28 @@ function renderizarPaginacion(totalPaginas, totalProductos) {
   const nav = $('#paginacion');
   nav.innerHTML = '';
   if (totalPaginas <= 1) return;
+  const irPagina = (n) => {
+    paginaActual = n;
+    filtrarYRenderizar();
+    document.getElementById('catalogo').scrollIntoView({ behavior: 'smooth' });
+  };
   const btnPrev = document.createElement('button');
   btnPrev.textContent = '« Anterior';
   btnPrev.disabled = paginaActual === 1;
-  btnPrev.addEventListener('click', () => { paginaActual--; filtrarYRenderizar(); });
+  btnPrev.addEventListener('click', () => irPagina(paginaActual - 1));
   nav.appendChild(btnPrev);
   for (let i = 1; i <= totalPaginas; i++) {
     const b = document.createElement('button');
     b.textContent = i;
     b.classList.toggle('activo', i === paginaActual);
     b.setAttribute('aria-label', 'Página ' + i);
-    b.addEventListener('click', () => { paginaActual = i; filtrarYRenderizar(); });
+    b.addEventListener('click', () => irPagina(i));
     nav.appendChild(b);
   }
   const btnNext = document.createElement('button');
   btnNext.textContent = 'Siguiente »';
   btnNext.disabled = paginaActual === totalPaginas;
-  btnNext.addEventListener('click', () => { paginaActual++; filtrarYRenderizar(); });
+  btnNext.addEventListener('click', () => irPagina(paginaActual + 1));
   nav.appendChild(btnNext);
 }
 
