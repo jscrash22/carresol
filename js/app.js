@@ -84,6 +84,7 @@ function toggleFav(p, card) {
   if (btn) {
     btn.textContent = ahora ? '♥' : '♡';
     btn.classList.toggle('activo', ahora);
+    btn.setAttribute('aria-pressed', String(ahora));
   }
   refrescarFavoritos();
 }
@@ -365,10 +366,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   productos = await obtenerProductos();
 
-  document.querySelectorAll('.filtro').forEach(btn => {
+  const filtros = document.querySelectorAll('.filtro');
+  filtros.forEach(btn => {
+    btn.setAttribute('aria-pressed', btn.classList.contains('activo') ? 'true' : 'false');
     btn.addEventListener('click', () => {
-      document.querySelectorAll('.filtro').forEach(b => b.classList.remove('activo'));
+      filtros.forEach(b => {
+        b.classList.remove('activo');
+        b.setAttribute('aria-pressed', 'false');
+      });
       btn.classList.add('activo');
+      btn.setAttribute('aria-pressed', 'true');
       filtroActual = btn.dataset.categoria;
       paginaActual = 1;
       filtrarYRenderizar();

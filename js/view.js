@@ -8,7 +8,7 @@ export function renderizarProductos(productos, contenedor, onAgregar, onToggleFa
     const card = document.createElement('article');
     card.className = 'card';
     card.innerHTML = `
-      <button class="btn-fav ${esFavorito(p.id) ? 'activo' : ''}" aria-label="Marcar ${p.nombre} como favorito">${esFavorito(p.id) ? '♥' : '♡'}</button>
+      <button class="btn-fav ${esFavorito(p.id) ? 'activo' : ''}" aria-label="Marcar ${p.nombre} como favorito" aria-pressed="${esFavorito(p.id)}">${esFavorito(p.id) ? '♥' : '♡'}</button>
       <img src="${p.imagen}" alt="${p.alt}" loading="lazy" />
       <h3>${p.nombre}</h3>
       <p>${p.descripcion}</p>

@@ -33,6 +33,11 @@ img { max-width: 100%; }
 
 :focus-visible { outline: 3px solid var(--dorado); outline-offset: 3px; }
 
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
 .skip-link {
   position: absolute; left: -9999px; top: 0;
   background: var(--dorado); color: var(--blanco); padding: 0.5rem 1rem; z-index: 100;
