@@ -5,7 +5,7 @@
     "categoria": "relojes",
     "precio": 450,
     "descripcion": "Reloj elegante con correa de cuero y esfera dorada.",
-    "imagen": "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=500&q=80",
+    "imagen": "assets/img/1.jpg",
     "alt": "Reloj de lujo Carresol con esfera dorada"
   },
   {
@@ -14,7 +14,7 @@
     "categoria": "relojes",
     "precio": 380,
     "descripcion": "Diseño atemporal con detalles en acero y dorado.",
-    "imagen": "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=500&q=80",
+    "imagen": "assets/img/2.jpg",
     "alt": "Reloj clásico Carresol sobre fondo neutro"
   },
   {
@@ -23,7 +23,7 @@
     "categoria": "relojes",
     "precio": 320,
     "descripcion": "Resistente al agua, ideal para uso diario.",
-    "imagen": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&q=80",
+    "imagen": "assets/img/3.jpg",
     "alt": "Reloj deportivo Carresol de pulsera metálica"
   },
   {
@@ -32,7 +32,7 @@
     "categoria": "relojes",
     "precio": 520,
     "descripcion": "Acabados premium para ocasiones especiales.",
-    "imagen": "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=500&q=80",
+    "imagen": "assets/img/4.jpg",
     "alt": "Reloj elegante Carresol con correa de cuero marrón"
   },
   {
@@ -41,7 +41,7 @@
     "categoria": "relojes",
     "precio": 290,
     "descripcion": "Esfera limpia y correa fina, estilo minimalista.",
-    "imagen": "https://images.unsplash.com/photo-1434056886845-dac89ffe9b56?w=500&q=80",
+    "imagen": "assets/img/5.jpg",
     "alt": "Reloj minimalista Carresol con esfera blanca"
   },
   {
@@ -50,7 +50,7 @@
     "categoria": "collares",
     "precio": 210,
     "descripcion": "Cadena dorada con dije en forma de estrella.",
-    "imagen": "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=500&q=80",
+    "imagen": "assets/img/6.jpg",
     "alt": "Collar dorado Carresol Aurora con dije"
   },
   {
@@ -59,7 +59,7 @@
     "categoria": "collares",
     "precio": 340,
     "descripcion": "Perlas cultivadas con broche dorado.",
-    "imagen": "https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=500&q=80",
+    "imagen": "assets/img/7.jpg",
     "alt": "Collar de perlas Carresol con broche dorado"
   },
   {
@@ -68,7 +68,7 @@
     "categoria": "collares",
     "precio": 780,
     "descripcion": "Dije de diamante en baño de oro de 18k.",
-    "imagen": "https://images.unsplash.com/photo-1602173574767-37ac01994b2a?w=500&q=80",
+    "imagen": "assets/img/8.jpg",
     "alt": "Collar Carresol con dije de diamante"
   },
   {
@@ -77,7 +77,7 @@
     "categoria": "collares",
     "precio": 180,
     "descripcion": "Dije de corazón grabable, regalo perfecto.",
-    "imagen": "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=500&q=80",
+    "imagen": "assets/img/9.jpg",
     "alt": "Collar Carresol con dije de corazón"
   },
   {
@@ -86,7 +86,7 @@
     "categoria": "collares",
     "precio": 260,
     "descripcion": "Cadena fina con piedra en forma de lágrima.",
-    "imagen": "https://images.unsplash.com/photo-1589128777073-263566ae5e4d?w=500&q=80",
+    "imagen": "assets/img/10.jpg",
     "alt": "Collar Carresol con piedra lágrima"
   },
   {
@@ -95,7 +95,7 @@
     "categoria": "pulseras",
     "precio": 120,
     "descripcion": "Eslabones trenzados en baño de oro.",
-    "imagen": "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=500&q=80",
+    "imagen": "assets/img/11.jpg",
     "alt": "Pulsera Carresol de eslabones trenzados"
   },
   {
@@ -104,7 +104,7 @@
     "categoria": "pulseras",
     "precio": 95,
     "descripcion": "Cadena fina ajustable para uso diario.",
-    "imagen": "https://images.unsplash.com/photo-1620656798579-1984d9e87df7?w=500&q=80",
+    "imagen": "assets/img/12.jpg",
     "alt": "Pulsera Carresol de cadena fina"
   },
   {
@@ -113,7 +113,7 @@
     "categoria": "pulseras",
     "precio": 640,
     "descripcion": "Tenis de diamantes con cierre de seguridad.",
-    "imagen": "https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?w=500&q=80",
+    "imagen": "assets/img/13.jpg",
     "alt": "Pulsera tenis Carresol con diamantes"
   },
   {
@@ -122,7 +122,7 @@
     "categoria": "pulseras",
     "precio": 150,
     "descripcion": "Hilo de perlas con broche dorado.",
-    "imagen": "https://images.unsplash.com/photo-1611085583191-a3b181a88401?w=500&q=80",
+    "imagen": "assets/img/14.jpg",
     "alt": "Pulsera Carresol de perlas con broche"
   },
   {
@@ -131,7 +131,7 @@
     "categoria": "pulseras",
     "precio": 175,
     "descripcion": "Eslabones anchos tipo Figaro.",
-    "imagen": "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?w=500&q=80",
+    "imagen": "assets/img/15.jpg",
     "alt": "Pulsera Carresol de eslabones Figaro"
   },
   {
@@ -140,7 +140,7 @@
     "categoria": "anillos",
     "precio": 480,
     "descripcion": "Solitario de diamante en oro amarillo.",
-    "imagen": "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=500&q=80",
+    "imagen": "assets/img/16.jpg",
     "alt": "Anillo solitario Carresol con diamante"
   },
   {
@@ -149,7 +149,7 @@
     "categoria": "anillos",
     "precio": 720,
     "descripcion": "Anillo de compromiso con piedra central.",
-    "imagen": "https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?w=500&q=80",
+    "imagen": "assets/img/17.jpg",
     "alt": "Anillo de compromiso Carresol"
   },
   {
@@ -158,7 +158,7 @@
     "categoria": "anillos",
     "precio": 140,
     "descripcion": "Banda lisa pulida en oro de 14k.",
-    "imagen": "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=500&q=80",
+    "imagen": "assets/img/18.jpg",
     "alt": "Anillo banda Carresol en oro"
   },
   {
@@ -167,7 +167,7 @@
     "categoria": "anillos",
     "precio": 390,
     "descripcion": "Banda con pequeños diamantes alrededor.",
-    "imagen": "https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=500&q=80",
+    "imagen": "assets/img/19.jpg",
     "alt": "Anillo eternidad Carresol con diamantes"
   },
   {
@@ -176,7 +176,7 @@
     "categoria": "anillos",
     "precio": 310,
     "descripcion": "Diseño de inspiración vintage con grabado.",
-    "imagen": "https://images.unsplash.com/photo-1508296695146-257a814070b4?w=500&q=80",
+    "imagen": "assets/img/20.jpg",
     "alt": "Anillo vintage Carresol con grabado"
   },
   {
@@ -185,7 +185,7 @@
     "categoria": "aretes",
     "precio": 130,
     "descripcion": "Aretes de perla con base dorada.",
-    "imagen": "https://images.unsplash.com/photo-1635767798638-3e25273a8236?w=500&q=80",
+    "imagen": "assets/img/21.jpg",
     "alt": "Aretes Carresol de perla"
   },
   {
@@ -194,7 +194,7 @@
     "categoria": "aretes",
     "precio": 110,
     "descripcion": "Aros medianos en baño de oro.",
-    "imagen": "https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=500&q=80",
+    "imagen": "assets/img/22.jpg",
     "alt": "Aretes aro Carresol dorados"
   },
   {
@@ -203,7 +203,7 @@
     "categoria": "aretes",
     "precio": 560,
     "descripcion": "Aretes tipo stud con diamantes.",
-    "imagen": "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=500&q=80",
+    "imagen": "assets/img/23.jpg",
     "alt": "Aretes stud Carresol con diamantes"
   },
   {
@@ -212,7 +212,7 @@
     "categoria": "aretes",
     "precio": 195,
     "descripcion": "Aretes de gota con cristal brillante.",
-    "imagen": "https://images.unsplash.com/photo-1635767798638-3e25273a8236?w=500&q=80",
+    "imagen": "assets/img/24.jpg",
     "alt": "Aretes gota Carresol brillantes"
   },
   {
@@ -221,7 +221,7 @@
     "categoria": "aretes",
     "precio": 85,
     "descripcion": "Argollas pequeñas ligeras para diario.",
-    "imagen": "https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=500&q=80",
+    "imagen": "assets/img/25.jpg",
     "alt": "Argollas pequeñas Carresol"
   }
 ]
