@@ -36,7 +36,42 @@ export function cargarFavoritos(usuario) {
   } catch (e) { console.error('Error cargando favoritos:', e); return []; }
 }
 
-// --- sessionStorage ---
+// --- sessionStorage (carrito/favoritos temporales del invitado) ---
+const SS_CARRITO = 'carresol_carrito_sesion';
+const SS_FAVORITOS = 'carresol_favoritos_sesion';
+
+export function guardarCarritoSesion(carrito) {
+  try { sessionStorage.setItem(SS_CARRITO, JSON.stringify(carrito)); }
+  catch (e) { console.error('Error guardando carrito de sesión:', e); }
+}
+
+export function cargarCarritoSesion() {
+  try {
+    const raw = sessionStorage.getItem(SS_CARRITO);
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) { console.error('Error cargando carrito de sesión:', e); return []; }
+}
+
+export function guardarFavoritosSesion(favs) {
+  try { sessionStorage.setItem(SS_FAVORITOS, JSON.stringify(favs)); }
+  catch (e) { console.error('Error guardando favoritos de sesión:', e); }
+}
+
+export function cargarFavoritosSesion() {
+  try {
+    const raw = sessionStorage.getItem(SS_FAVORITOS);
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) { console.error('Error cargando favoritos de sesión:', e); return []; }
+}
+
+export function limpiarCarritoFavoritosSesion() {
+  try {
+    sessionStorage.removeItem(SS_CARRITO);
+    sessionStorage.removeItem(SS_FAVORITOS);
+  } catch (e) { console.error(e); }
+}
+
+// --- sessionStorage (visita) ---
 export function registrarVisita() {
   try { sessionStorage.setItem(SS_VISITA, new Date().toISOString()); }
   catch (e) { console.error('Error en sessionStorage:', e); }

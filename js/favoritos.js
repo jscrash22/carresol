@@ -1,12 +1,17 @@
 // favoritos.js — gestión de favoritos
-import { guardarFavoritos, cargarFavoritos } from './storage.js';
+import { guardarFavoritos, cargarFavoritos, guardarFavoritosSesion, cargarFavoritosSesion } from './storage.js';
 
 let favoritos = [];
 let usuarioActual = null;
 
 export function inicializarFavoritos(usuario = null) {
   usuarioActual = usuario;
-  favoritos = cargarFavoritos(usuario);
+  favoritos = usuario ? cargarFavoritos(usuario) : cargarFavoritosSesion();
+}
+
+function persistir() {
+  if (usuarioActual) guardarFavoritos(favoritos, usuarioActual);
+  else guardarFavoritosSesion(favoritos);
 }
 
 export function getFavoritos() {
@@ -23,11 +28,11 @@ export function toggleFavorito(producto) {
   } else {
     favoritos.push(producto);
   }
-  guardarFavoritos(favoritos, usuarioActual);
+  persistir();
   return esFavorito(producto.id);
 }
 
 export function limpiarFavoritos() {
   favoritos = [];
-  guardarFavoritos(favoritos, usuarioActual);
+  persistir();
 }

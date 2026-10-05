@@ -6,7 +6,7 @@ import {
 } from './view.js';
 import * as cart from './cart.js';
 import * as favs from './favoritos.js';
-import { registrarVisita, setCookie, getCookie } from './storage.js';
+import { registrarVisita, setCookie, getCookie, limpiarCarritoFavoritosSesion } from './storage.js';
 import { validarNombre, validarEmail, validarTelefono, validarMensaje, aplicarResultado } from './validaciones.js';
 
 let productos = [];
@@ -281,6 +281,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     favs.inicializarFavoritos(usuario);
     carritoInvitado.forEach(i => cart.agregarProducto(i, i.cantidad));
     favoritosInvitados.forEach(p => { if (!favs.esFavorito(p.id)) favs.toggleFavorito(p); });
+    limpiarCarritoFavoritosSesion();
     refrescarCarrito();
     refrescarFavoritos();
   };
@@ -353,6 +354,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     $('#saludo').hidden = true;
     $('#btn-salir').hidden = true;
     usuarioActivo = null;
+    limpiarCarritoFavoritosSesion();
     cart.inicializarCarrito(null);
     favs.inicializarFavoritos(null);
     refrescarCarrito();

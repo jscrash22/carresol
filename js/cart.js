@@ -1,5 +1,5 @@
 // cart.js — lógica del carrito de compras
-import { guardarCarrito, cargarCarrito, guardarHistorial } from './storage.js';
+import { guardarCarrito, cargarCarrito, guardarCarritoSesion, cargarCarritoSesion, guardarHistorial } from './storage.js';
 import { formatearPrecio } from './repo.js';
 
 const IVA = 0.15;
@@ -11,7 +11,7 @@ let usuarioActual = null;
 
 export function inicializarCarrito(usuario = null) {
   usuarioActual = usuario;
-  carrito = cargarCarrito(usuario);
+  carrito = usuario ? cargarCarrito(usuario) : cargarCarritoSesion();
   ultimaActualizacion = new Date().toISOString();
 }
 
@@ -25,7 +25,8 @@ export function getUltimaActualizacion() {
 
 function tocar() {
   ultimaActualizacion = new Date().toISOString();
-  guardarCarrito(carrito, usuarioActual);
+  if (usuarioActual) guardarCarrito(carrito, usuarioActual);
+  else guardarCarritoSesion(carrito);
 }
 
 export function agregarProducto(producto, cantidad = 1) {
