@@ -52,11 +52,6 @@ function cambiarCantidad(id, delta) {
 }
 
 function agregarAlCarrito(p) {
-  if (!usuarioActivo) {
-    abrirModalLogin();
-    mostrarAlertaCarrito('Inicia sesión o crea una cuenta para agregar productos.');
-    return;
-  }
   const res = cart.agregarProducto(p);
   if (!res.ok) mostrarAlertaCarrito(res.mensaje);
   else mostrarAlertaCarrito('');
@@ -75,10 +70,6 @@ function refrescarFavoritos() {
 }
 
 function toggleFav(p, card) {
-  if (!usuarioActivo) {
-    abrirModalLogin();
-    return;
-  }
   const ahora = favs.toggleFavorito(p);
   const btn = card.querySelector('.btn-fav');
   if (btn) {
@@ -90,7 +81,6 @@ function toggleFav(p, card) {
 }
 
 function quitarFav(p) {
-  if (!usuarioActivo) { abrirModalLogin(); return; }
   favs.toggleFavorito(p);
   refrescarFavoritos();
   // refrescar corazón en catálogo
@@ -284,8 +274,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     $('#btn-salir').hidden = false;
     cerrarModalLogin();
     usuarioActivo = usuario;
+    // Conservar lo que el invitado agregó antes de iniciar sesión
+    const carritoInvitado = cart.getCarrito();
+    const favoritosInvitados = favs.getFavoritos();
     cart.inicializarCarrito(usuario);
     favs.inicializarFavoritos(usuario);
+    carritoInvitado.forEach(i => cart.agregarProducto(i, i.cantidad));
+    favoritosInvitados.forEach(p => { if (!favs.esFavorito(p.id)) favs.toggleFavorito(p); });
     refrescarCarrito();
     refrescarFavoritos();
   };
@@ -392,6 +387,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   $('#btn-vaciar').addEventListener('click', () => { cart.vaciarCarrito(); refrescarCarrito(); });
   $('#btn-finalizar').addEventListener('click', async () => {
+    if (!usuarioActivo) {
+      abrirModalLogin();
+      $('#compra-confirmacion').textContent = 'Debes iniciar sesión para finalizar la compra.';
+      return;
+    }
     const res = await cart.registrarCompra();
     if (res.ok) {
       $('#compra-confirmacion').textContent = `¡Compra registrada! Total: $${res.total.toFixed(2)}. Gracias por tu compra en Carresol.`;

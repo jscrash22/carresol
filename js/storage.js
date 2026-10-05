@@ -9,11 +9,13 @@ const claveCarrito = (usuario) => usuario ? `${LS_CARRITO}_${usuario}` : `${LS_C
 const claveFavoritos = (usuario) => usuario ? `${LS_FAVORITOS}_${usuario}` : `${LS_FAVORITOS}_invitado`;
 
 export function guardarCarrito(carrito, usuario) {
+  if (!usuario) return; // sin sesión no se guarda nada
   try { localStorage.setItem(claveCarrito(usuario), JSON.stringify(carrito)); }
   catch (e) { console.error('Error guardando carrito:', e); }
 }
 
 export function cargarCarrito(usuario) {
+  if (!usuario) return []; // sin sesión el carrito empieza vacío
   try {
     const raw = localStorage.getItem(claveCarrito(usuario));
     return raw ? JSON.parse(raw) : [];
@@ -21,11 +23,13 @@ export function cargarCarrito(usuario) {
 }
 
 export function guardarFavoritos(favs, usuario) {
+  if (!usuario) return;
   try { localStorage.setItem(claveFavoritos(usuario), JSON.stringify(favs)); }
   catch (e) { console.error('Error guardando favoritos:', e); }
 }
 
 export function cargarFavoritos(usuario) {
+  if (!usuario) return [];
   try {
     const raw = localStorage.getItem(claveFavoritos(usuario));
     return raw ? JSON.parse(raw) : [];
