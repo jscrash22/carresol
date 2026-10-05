@@ -242,6 +242,10 @@ function inicializarFormulario() {
 
 // ===== Inicio =====
 document.addEventListener('DOMContentLoaded', async () => {
+  // Evitar que el navegador restaure la posición de scroll anterior
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  window.scrollTo(0, 0);
+
   cart.inicializarCarrito();
   favs.inicializarFavoritos();
   registrarVisita();
