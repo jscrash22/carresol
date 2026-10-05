@@ -81,7 +81,7 @@ img { max-width: 100%; }
 .hero {
   text-align: center; padding: 6rem 1rem; color: var(--blanco);
   background: linear-gradient(rgba(13, 13, 13, 0.55), rgba(13, 13, 13, 0.55)),
-    url('assets/img/hero.jpg') center/cover no-repeat;
+    url('../img/fondo/hero.jpg') center/cover no-repeat;
 }
 .hero h1 { color: var(--blanco); }
 .hero p { margin: 1rem 0 2rem; color: var(--dorado-claro); }
