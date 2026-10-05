@@ -125,8 +125,6 @@ img { max-width: 100%; }
 }
 .paginacion button.activo, .paginacion button:hover { background: var(--dorado); color: var(--blanco); }
 .paginacion button:disabled { opacity: 0.5; cursor: not-allowed; }
-.filtros-vertical { flex-direction: column; align-items: stretch; }
-.filtros-vertical .filtro { width: 100%; text-align: left; }
 .alerta { color: #b00020; font-weight: 600; }
 .exito { color: #1e7e34; font-weight: 600; }
 
@@ -165,6 +163,12 @@ img { max-width: 100%; }
 }
 
 .footer { text-align: center; padding: 2rem; border-top: 1px solid var(--gris-borde); color: var(--dorado-oscuro); background: var(--blanco-roto); }
+
+.seccion-contacto {
+  background: #f3efe6;
+  border-radius: var(--radio);
+  margin: 2rem auto;
+}
 
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
