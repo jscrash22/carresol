@@ -170,7 +170,8 @@ img { max-width: 100%; }
 .footer { text-align: center; padding: 2rem; border-top: 1px solid var(--gris-borde); color: var(--dorado-oscuro); background: var(--blanco-roto); }
 
 .seccion-contacto {
-  background: #f3efe6;
+  background: #e8e4dc;
+  border: 1px solid var(--gris-borde);
   border-radius: var(--radio);
   margin: 2rem auto;
 }
