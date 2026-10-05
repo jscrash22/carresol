@@ -87,7 +87,7 @@ img { max-width: 100%; }
 .hero p { margin: 1rem 0 2rem; color: var(--dorado-claro); }
 
 /* ===== Secciones ===== */
-.seccion { max-width: 1100px; margin: 0 auto; padding: 3rem 1rem; }
+.seccion { max-width: 1100px; margin: 0 auto; padding: 3rem 1rem; scroll-margin-top: 70px; }
 .seccion--alterna { background: var(--blanco-roto); max-width: none; padding-left: calc((100% - 1100px) / 2 + 1rem); padding-right: calc((100% - 1100px) / 2 + 1rem); }
 
 .filtros { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2rem; }

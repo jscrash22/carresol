@@ -118,7 +118,11 @@ function renderizarPaginacion(totalPaginas, totalProductos) {
   const irPagina = (n) => {
     paginaActual = n;
     filtrarYRenderizar();
-    document.getElementById('catalogo').scrollIntoView({ behavior: 'smooth' });
+    requestAnimationFrame(() => {
+      const el = document.getElementById('catalogo');
+      const y = el.getBoundingClientRect().top + window.scrollY - 70;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    });
   };
   const btnPrev = document.createElement('button');
   btnPrev.textContent = '« Anterior';
